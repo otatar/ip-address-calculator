@@ -1,5 +1,5 @@
 <template>
-   <div class="flex justify-center items-center w-full h-full bg-gray-300">
+   <div class="flex overflow-auto justify-center items-center w-full bg-gray-300">
      <subnet-calculator-card class="lg:w-1/2" title="IPv4 CIDR Subnet Calculator" />
    </div>
 </template>
