@@ -1,27 +1,21 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <Ipv4CidSubnetCalculator />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Ipv4CidSubnetCalculator from '@/views/Ipv4CidSubnetCalculator.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    Ipv4CidSubnetCalculator
   }
 });
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+body {
+  background-color: gray;
+  height: 100%;
 }
 </style>
