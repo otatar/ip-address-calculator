@@ -7,8 +7,8 @@
             <form id = "subnet-calculator" class="grid sm:grid-cols-3 gr">
                 <fieldset class="border border-solid border-gray-300 p-3 mb-4 rounded-lg grid sm:grid-cols-3 col-span-3">
                     <legend class="block tracking-wide text-gray-700 text-s font-semibold mb-1">Input</legend>
-                    <base-input label="IP Address" v-model="ipAddress" @change="formChanged" />
-                    <base-input label="Subnet Mask" v-model="subnetMask" />
+                    <base-input label="IP Address" :error="ipAddressError" v-model="ipAddress" @change="formChanged" />
+                    <base-input label="Subnet Mask" :error="subnetMaskError" v-model="subnetMask" />
                     <base-select label="Mask Bits" v-model="maskBits" :options="maskBitOptions" />
                 </fieldset>
                 <fieldset class="border border-solid border-gray-300 p-3 rounded-lg grid sm:grid-cols-3 col-span-3">
@@ -43,8 +43,10 @@ export default defineComponent({
     setup() {
 
         const ipAddress = ref("");
+        let ipAddressError = ref("");
 
         const subnetMask = ref("");
+        let subnetMaskError = ref("");
         watch(subnetMask, sm => {
             if(isSubnetMask(sm as string) === true) {
                 maskBits.value = subnetMaskOptions.filter(item => item.mask == sm)[0].maskBits
@@ -72,15 +74,21 @@ export default defineComponent({
             const ipAddressRegEx = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
             const regexp = new RegExp(ipAddressRegEx);
             if(regexp.test(value)) {
+                ipAddressError.value = "";
                 return true;
             }
-            return "IP Address is invalid"
+            ipAddressError.value = "IP Address is invalid";
+            return "IP Address is invalid";
         }
 
         //Subnet mask validation func
         const isSubnetMask = (value: string) => {
             const validSM = subnetMaskOptions.map(sm => sm.mask);
-            if(validSM.includes(value)) return true;
+            if(validSM.includes(value)) {
+                subnetMaskError.value = "";
+                return true;
+            } 
+             subnetMaskError.value = "Subnet mask is invalid";
             return "Subnet mask is invalid"
         }
 
@@ -95,10 +103,10 @@ export default defineComponent({
                 maxHosts.value = subInfo.maxHosts;
                 maxSubnets.value = subInfo.maxSubnets;
                 ipAddressCidr.value = subInfo.ipAddressCidr;
-            }
+            } 
         }
 
-        return { ipAddress, subnetMask, maskBits, ipAddressCidr, maskBitOptions, subnetId, broadcast, hostRange, maxHosts, maxSubnets, formChanged } 
+        return { ipAddress, subnetMask, maskBits, ipAddressCidr, maskBitOptions, subnetId, broadcast, hostRange, maxHosts, maxSubnets, formChanged, ipAddressError, subnetMaskError } 
     }
 });
 </script>
