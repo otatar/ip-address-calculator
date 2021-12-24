@@ -7,18 +7,18 @@
             <form id = "subnet-calculator" class="grid sm:grid-cols-3 gr">
                 <fieldset class="border border-solid border-gray-300 p-3 mb-4 rounded-lg grid sm:grid-cols-3 col-span-3">
                     <legend class="block tracking-wide text-gray-700 text-s font-semibold mb-1">Input</legend>
-                    <base-input label="IP Address" :error="ipAddressError" v-model="ipAddress" @change="formChanged" />
-                    <base-input label="Subnet Mask" :error="subnetMaskError" v-model="subnetMask" />
-                    <base-select label="Mask Bits" v-model="maskBits" :options="maskBitOptions" />
+                    <base-input data-testid="ipaddress" label="IP Address" :error="ipAddressError" v-model="ipAddress" @change="ipAddressChange" />
+                    <base-input data-testid="subnetmask" label="Subnet Mask" :error="subnetMaskError" v-model="subnetMask" @change="subnetMaskChange" />
+                    <base-select data-testid="maskbits" label="Mask Bits" v-model="maskBits" :options="maskBitOptions" />
                 </fieldset>
                 <fieldset class="border border-solid border-gray-300 p-3 rounded-lg grid sm:grid-cols-3 col-span-3">
                     <legend class="block tracking-wide text-gray-700 text-s font-semibold mb-1">Output</legend>
                     <base-input label="IP Address CIDR" v-model="ipAddressCidr" disabled />
-                    <base-input label="Subnet ID" v-model="subnetId" disabled />
-                    <base-input label="Broadcast" v-model="broadcast" disabled />
+                    <base-input data-testid="subnetid" label="Subnet ID" v-model="subnetId" disabled />
+                    <base-input data-testid="broadcast" label="Broadcast" v-model="broadcast" disabled />
                     <base-input label="Host Range" v-model="hostRange" disabled />
-                    <base-input label="Max Hosts" v-model="maxHosts" disabled />
-                    <base-input label="Max Subnets" v-model="maxSubnets" disabled />
+                    <base-input data-testid="maxhosts" label="Max Hosts" v-model="maxHosts" disabled />
+                    <base-input data-testid="maxsubnets" label="Max Subnets" v-model="maxSubnets" disabled />
                 </fieldset>
             </form>
         </div>
@@ -44,20 +44,34 @@ export default defineComponent({
 
         const ipAddress = ref("");
         let ipAddressError = ref("");
-
+        const ipAddressChange = () => {
+            if(isIpAddress(ipAddress.value as string) === true) {
+                ipAddressError.value = ''
+                formChanged()
+            } else {
+                ipAddressError.value = 'IP Address is invalid'
+                resetOutput()
+            }
+        }
+       
         const subnetMask = ref("");
         let subnetMaskError = ref("");
-        watch(subnetMask, sm => {
-            if(isSubnetMask(sm as string) === true) {
-                maskBits.value = subnetMaskOptions.filter(item => item.mask == sm)[0].maskBits
-                formChanged();
+        const subnetMaskChange = () => {
+            if(isSubnetMask(subnetMask.value as string) === true) {
+                maskBits.value = subnetMaskOptions.filter(item => item.mask == subnetMask.value)[0].maskBits
+                subnetMaskError.value = ''
+                formChanged()
+            } else {
+                subnetMaskError.value = 'Subnet Mask is invalid'
+                resetOutput()
             }
-        });
+        }
 
         let maskBits = ref(0);
         // Watch for changes is select mask bits
         watch(maskBits, mb => {
             subnetMask.value = subnetMaskOptions.filter(sm => sm.maskBits == mb)[0].mask
+            subnetMaskChange()
         })
 
         let maskBitOptions = subnetMaskOptions.map(opt => opt.maskBits);
@@ -74,10 +88,8 @@ export default defineComponent({
             const ipAddressRegEx = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
             const regexp = new RegExp(ipAddressRegEx);
             if(regexp.test(value)) {
-                ipAddressError.value = "";
                 return true;
             }
-            ipAddressError.value = "IP Address is invalid";
             return "IP Address is invalid";
         }
 
@@ -85,13 +97,10 @@ export default defineComponent({
         const isSubnetMask = (value: string) => {
             const validSM = subnetMaskOptions.map(sm => sm.mask);
             if(validSM.includes(value)) {
-                subnetMaskError.value = "";
                 return true;
             } 
-             subnetMaskError.value = "Subnet mask is invalid";
             return "Subnet mask is invalid"
         }
-
         
         const formChanged = () => {
             if(isIpAddress(ipAddress.value) === true && isSubnetMask(subnetMask.value) === true) {
@@ -106,7 +115,16 @@ export default defineComponent({
             } 
         }
 
-        return { ipAddress, subnetMask, maskBits, ipAddressCidr, maskBitOptions, subnetId, broadcast, hostRange, maxHosts, maxSubnets, formChanged, ipAddressError, subnetMaskError } 
+        const resetOutput = () => {
+            ipAddressCidr.value = ''
+            subnetId.value = ''
+            broadcast.value = ''
+            maxHosts.value = 0
+            maxSubnets.value = 0
+            hostRange.value = ''
+        }
+
+        return { ipAddress, subnetMask, maskBits, ipAddressCidr, maskBitOptions, subnetId, broadcast, hostRange, maxHosts, maxSubnets, formChanged, subnetMaskChange, ipAddressChange, ipAddressError, subnetMaskError } 
     }
 });
 </script>

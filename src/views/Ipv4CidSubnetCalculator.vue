@@ -1,6 +1,6 @@
 <template>
    <div class="flex overflow-auto justify-center items-center sm:h-screen bg-gray-300">
-     <subnet-calculator-card class="lg:w-1/2" title="IPv4 CIDR Subnet Calculator" />
+     <subnet-calculator-card class="xl:w-1/2" title="IPv4 CIDR Subnet Calculator" />
    </div>
 </template>
 <script>

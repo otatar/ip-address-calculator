@@ -57,6 +57,7 @@ export default class IpAddress {
     }
   
     static intToString(int: number): string {
+      int = Math.abs(int);
       const first = Math.floor(int / 256 ** 3);
       int = int % 256 ** 3;
       const second = Math.floor(int / 256 ** 2);
