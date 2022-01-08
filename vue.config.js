@@ -10,5 +10,14 @@ module.exports = {
             appleTouchIcon: 'img/icons/icon-152x152.png',
             msTileImage: 'img/icons/icon-144x144.png'
         }
-    }
+    },
+    pluginOptions: {
+        electronBuilder: {
+          builderOptions: {
+            win: {
+              icon: './icon.ico'
+            }
+          }
+        }
+      }
 }
