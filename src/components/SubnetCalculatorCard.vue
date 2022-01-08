@@ -4,21 +4,25 @@
             <h3 class="text-grey-700 text-xl text-semibold">{{title}}</h3>
         </div>
         <div>
-            <form id = "subnet-calculator" class="grid sm:grid-cols-3 gr">
-                <fieldset class="border border-solid border-gray-300 p-3 mb-4 rounded-lg grid sm:grid-cols-3 col-span-3">
+            <form id = "subnet-calculator">
+                 <fieldset class="border border-solid border-gray-400 p-3 rounded-lg">
                     <legend class="block tracking-wide text-gray-700 text-s font-semibold mb-1">Input</legend>
-                    <base-input data-testid="ipaddress" label="IP Address" :error="ipAddressError" v-model="ipAddress" @change="ipAddressChange" />
-                    <base-input data-testid="subnetmask" label="Subnet Mask" :error="subnetMaskError" v-model="subnetMask" @change="subnetMaskChange" />
-                    <base-select data-testid="maskbits" label="Mask Bits" v-model="maskBits" :options="maskBitOptions" />
-                </fieldset>
-                <fieldset class="border border-solid border-gray-300 p-3 rounded-lg grid sm:grid-cols-3 col-span-3">
+                    <div class="grid sm:grid-cols-3 gr">
+                        <base-input data-testid="ipaddress" label="IP Address" :error="ipAddressError" v-model="ipAddress" @change="ipAddressChange" />
+                        <base-input data-testid="subnetmask" label="Subnet Mask" :error="subnetMaskError" v-model="subnetMask" @change="subnetMaskChange" />
+                        <base-select data-testid="maskbits" label="Mask Bits" v-model="maskBits" :options="maskBitOptions" />
+                    </div>
+                 </fieldset>
+                <fieldset class="border border-solid border-gray-400 p-3 rounded-lg">
                     <legend class="block tracking-wide text-gray-700 text-s font-semibold mb-1">Output</legend>
-                    <base-input label="IP Address CIDR" v-model="ipAddressCidr" disabled />
-                    <base-input data-testid="subnetid" label="Subnet ID" v-model="subnetId" disabled />
-                    <base-input data-testid="broadcast" label="Broadcast" v-model="broadcast" disabled />
-                    <base-input label="Host Range" v-model="hostRange" disabled />
-                    <base-input data-testid="maxhosts" label="Max Hosts" v-model="maxHosts" disabled />
-                    <base-input data-testid="maxsubnets" label="Max Subnets" v-model="maxSubnets" disabled />
+                    <div class="grid sm:grid-cols-3 gr">
+                        <base-input label="IP Address CIDR" v-model="ipAddressCidr" disabled />
+                        <base-input data-testid="subnetid" label="Subnet ID" v-model="subnetId" disabled />
+                        <base-input data-testid="broadcast" label="Broadcast" v-model="broadcast" disabled />
+                        <base-input label="Host Range" v-model="hostRange" disabled />
+                        <base-input data-testid="maxhosts" label="Max Hosts" v-model="maxHosts" disabled />
+                        <base-input data-testid="maxsubnets" label="Max Subnets" v-model="maxSubnets" disabled />
+                    </div>
                 </fieldset>
             </form>
         </div>

@@ -7,9 +7,9 @@
 }
 
 .form-input {
-    @apply block appearance-none mb-1 bg-white w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500 disabled:bg-gray-200
+    @apply block appearance-none mb-1 bg-white w-full border border-gray-400 text-gray-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500 disabled:bg-gray-200
 }
 
 .form-select {
-    @apply block appearance-none mb-4 bg-white w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500
+    @apply block appearance-none mb-4 bg-white w-full border border-gray-400 text-gray-500 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500
 }
