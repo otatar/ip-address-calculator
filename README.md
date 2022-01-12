@@ -15,6 +15,15 @@ npm run serve
 npm run build
 ```
 
+### Compiles and run electron app
+```
+npm run electron:serve
+```
+### Compiles and build electron app for production
+```
+npm run electron:build
+```
+
 ### Run your unit tests
 ```
 npm run test:unit
